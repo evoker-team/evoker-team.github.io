@@ -1045,48 +1045,42 @@
         .join-buttons .btn {
             min-width: 180px;
         }
-        .social-links {
+        .join-bottom {
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 18px;
+            gap: 24px;
             margin-top: 36px;
             flex-wrap: wrap;
         }
-        .social-links a {
+        .join-bottom .text {
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        .join-bottom .discord-link {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+            gap: 12px;
             background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            padding: 12px 28px;
+            border-radius: 50px;
             border: 1px solid var(--glass-border);
-            color: var(--gray);
-            font-size: 1.4rem;
-            transition: var(--transition);
+            color: var(--white);
             text-decoration: none;
-            position: relative;
-        }
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            inset: -2px;
-            border-radius: 50%;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--purple), transparent);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
             transition: var(--transition);
+            font-weight: 600;
+            font-size: 1rem;
         }
-        .social-links a:hover::before {
-            opacity: 1;
+        .join-bottom .discord-link i {
+            font-size: 2rem;
+            color: var(--bright-purple);
         }
-        .social-links a:hover {
+        .join-bottom .discord-link:hover {
             background: rgba(168, 85, 247, 0.1);
-            color: #fff;
-            transform: translateY(-6px);
+            border-color: var(--bright-purple);
+            transform: translateY(-3px);
             box-shadow: 0 0 40px var(--glow-purple);
         }
         .footer {
@@ -1391,7 +1385,7 @@
             .gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
             .section-header h2 { font-size: 1.5rem; }
             .join-buttons .btn { min-width: 120px; }
-            .social-links a { width: 44px; height: 44px; font-size: 1.2rem; }
+            .join-bottom { flex-direction: column; gap: 16px; }
             .modal { padding: 24px 16px; }
             .modal-header h2 { font-size: 1.2rem; }
             .form-group .input-wrapper input,
@@ -1435,7 +1429,7 @@
         <div class="hero-content">
             <div class="hero-badge"><span class="pulse-dot"></span> Minecraft Clan</div>
             <h1>EVOKER<br /><span class="highlight-text">TEAM</span></h1>
-            <p>Играем вместе, строим, сражаемся и развиваемся.<br />Присоединяйся к нашему сообществу!</p>
+            <p>Играем вместе, строим, сражаемся и развиваемся.<br />Присоединяйся к нашему клану!</p>
             <div class="hero-buttons">
                 <button class="btn btn-primary" id="openModalBtnHero"><i class="fas fa-rocket"></i> Присоединиться</button>
                 <a href="#about" class="btn btn-secondary"><i class="fas fa-chevron-right"></i> Узнать больше</a>
@@ -1454,22 +1448,22 @@
                 <div class="about-card reveal reveal-delay-1">
                     <div class="icon-wrap">⚔️</div>
                     <h3>PvP и выживание</h3>
-                    <p>Любим сражения и умеем выживать в любых условиях. Тактика и реакция — наши сильные стороны.</p>
+                    <p>Любим сражения и умеем выживать в любых условиях. Тактика и реакция - наши сильные стороны.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-2">
                     <div class="icon-wrap">🧱</div>
                     <h3>Строительство</h3>
-                    <p>Строим уютные дома, замки и целые города. Каждый проект — это общая работа.</p>
+                    <p>Строим уютные постройки с нашими лучшими строителями. Каждый проект - это общая работа каждого человека.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-3">
                     <div class="icon-wrap">👥</div>
                     <h3>Команда</h3>
-                    <p>Мы — дружное сообщество. Помогаем друг другу и вместе проходим любые испытания.</p>
+                    <p>Мы - дружное сообщество. Помогаем друг другу и вместе проходим любые испытания.</p>
                 </div>
                 <div class="about-card reveal reveal-delay-4">
-                    <div class="icon-wrap">🏆</div>
-                    <h3>Достижения</h3>
-                    <p>Участвуем в турнирах, ставим рекорды и просто кайфуем от игры.</p>
+                    <div class="icon-wrap">🏬</div>
+                    <h3>Торговля</h3>
+                    <p>Так же мы имеем хороший магазин с лучшими отзывами!</p>
                 </div>
             </div>
         </div>
@@ -1507,14 +1501,16 @@
         <div class="site-wrapper">
             <div class="join-section reveal">
                 <h2>Присоединяйся к <span class="gradient-text">EVOKER TEAM</span></h2>
-                <p>Если тебе нравится играть в команде и развиваться — добро пожаловать!</p>
+                <p>Если тебе нравится играть в команде и развиваться - добро пожаловать!</p>
                 <div class="join-buttons">
                     <a href="https://discord.gg/bVwkuqXErT" target="_blank" class="btn btn-primary"><i class="fab fa-discord"></i> Discord</a>
                     <a href="https://t.me/+JJ_8njTKA94yOGJh" target="_blank" class="btn btn-secondary"><i class="fab fa-telegram"></i> Telegram</a>
                 </div>
-                <div class="social-links">
-                    <a href="https://discord.gg/bVwkuqXErT" target="_blank" aria-label="Discord"><i class="fab fa-discord"></i></a>
-                    <a href="https://t.me/+JJ_8njTKA94yOGJh" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <div class="join-bottom">
+                    <span class="text">Мы играем на Vanilla Squad. На лучшем ванильном сервере. Присоединяйся и ты!</span>
+                    <a href="https://discord.gg/gNPyEEHr36" target="_blank" class="discord-link">
+                        <i class="fab fa-discord"></i> Discord
+                    </a>
                 </div>
             </div>
         </div>
