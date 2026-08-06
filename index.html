@@ -58,6 +58,289 @@
             min-height: 100vh;
             cursor: none;
         }
+
+        /* ===== PRELOADER ===== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            overflow: hidden;
+            pointer-events: all;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* фон прелоадера — такие же фигуры как на сайте */
+        #preloader .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        #preloader .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.07;
+            animation: floatShape 20s infinite ease-in-out alternate;
+        }
+        #preloader .floating-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: var(--bright-purple);
+            top: -5%;
+            left: -5%;
+            animation-duration: 25s;
+        }
+        #preloader .floating-shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: #ec4899;
+            bottom: -10%;
+            right: -10%;
+            animation-duration: 30s;
+            animation-delay: -5s;
+            border-radius: 40% 60% 50% 50%;
+        }
+        #preloader .floating-shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: #8b5cf6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-duration: 22s;
+            animation-delay: -10s;
+            border-radius: 30% 70% 60% 40%;
+        }
+        #preloader .floating-shape:nth-child(4) {
+            width: 150px;
+            height: 150px;
+            background: #06b6d4;
+            top: 20%;
+            right: 10%;
+            animation-duration: 18s;
+            animation-delay: -3s;
+            border-radius: 60% 40% 70% 30%;
+        }
+        #preloader .floating-shape:nth-child(5) {
+            width: 250px;
+            height: 250px;
+            background: #f59e0b;
+            bottom: 20%;
+            left: 10%;
+            animation-duration: 28s;
+            animation-delay: -8s;
+            border-radius: 50% 50% 40% 60%;
+        }
+
+        @keyframes floatShape {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            33% {
+                transform: translate(30px, -40px) scale(1.1) rotate(15deg);
+            }
+            66% {
+                transform: translate(-20px, 30px) scale(0.9) rotate(-10deg);
+            }
+            100% {
+                transform: translate(15px, -15px) scale(1.05) rotate(5deg);
+            }
+        }
+
+        /* центральный контент прелоадера */
+        #preloader .loader-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #preloader .loader-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-family: var(--minecraft-font);
+            font-size: clamp(1.8rem, 6vw, 3.6rem);
+            letter-spacing: 3px;
+            color: var(--white);
+            text-decoration: none;
+            margin-bottom: 32px;
+            animation: pulseLogo 2.4s ease-in-out infinite;
+        }
+        #preloader .loader-logo .logo-icon {
+            font-size: clamp(2.2rem, 7vw, 4.2rem);
+            color: var(--bright-purple);
+            filter: drop-shadow(0 0 40px var(--glow-purple));
+            animation: pulseIcon 2.4s ease-in-out infinite;
+        }
+        #preloader .loader-logo span {
+            background: linear-gradient(135deg, var(--bright-purple), #d8b4fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes pulseLogo {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        @keyframes pulseIcon {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 40px var(--glow-purple));
+            }
+            50% {
+                filter: drop-shadow(0 0 80px var(--glow-purple)) drop-shadow(0 0 120px rgba(168, 85, 247, 0.15));
+            }
+        }
+
+        /* "Загрузка" текст */
+        #preloader .loader-text {
+            font-family: var(--minecraft-font);
+            font-size: 0.55rem;
+            color: var(--gray);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        #preloader .loader-text i {
+            color: var(--bright-purple);
+            margin-right: 10px;
+        }
+
+        /* прогресс-бар */
+        #preloader .progress-track {
+            width: min(320px, 70vw);
+            height: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            border: 1px solid rgba(168, 85, 247, 0.08);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.02);
+        }
+        #preloader .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--purple), var(--bright-purple), var(--light-purple));
+            border-radius: 10px;
+            box-shadow: 0 0 30px var(--glow-purple), 0 0 60px rgba(168, 85, 247, 0.1);
+            transition: width 0.25s ease-out;
+            position: relative;
+        }
+        #preloader .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            animation: shimmerBar 1.8s infinite linear;
+        }
+        @keyframes shimmerBar {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* проценты */
+        #preloader .loader-percent {
+            font-family: var(--minecraft-font);
+            font-size: 0.7rem;
+            color: var(--light-purple);
+            margin-top: 16px;
+            letter-spacing: 2px;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        /* маленькие кубики (Minecraft-стиль) */
+        #preloader .loader-blocks {
+            display: flex;
+            gap: 8px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        #preloader .loader-blocks .block {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            background: var(--glass-border);
+            border: 1px solid rgba(168, 85, 247, 0.08);
+            transition: all 0.4s ease;
+            animation: blockPulse 1.6s infinite ease-in-out alternate;
+        }
+        #preloader .loader-blocks .block:nth-child(1) {
+            animation-delay: 0.0s;
+        }
+        #preloader .loader-blocks .block:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        #preloader .loader-blocks .block:nth-child(3) {
+            animation-delay: 0.30s;
+        }
+        #preloader .loader-blocks .block:nth-child(4) {
+            animation-delay: 0.45s;
+        }
+        #preloader .loader-blocks .block:nth-child(5) {
+            animation-delay: 0.60s;
+        }
+        #preloader .loader-blocks .block:nth-child(6) {
+            animation-delay: 0.75s;
+        }
+        #preloader .loader-blocks .block:nth-child(7) {
+            animation-delay: 0.90s;
+        }
+        #preloader .loader-blocks .block:nth-child(8) {
+            animation-delay: 1.05s;
+        }
+        @keyframes blockPulse {
+            0% {
+                background: rgba(168, 85, 247, 0.05);
+                transform: scale(0.8) translateY(4px);
+                border-color: rgba(168, 85, 247, 0.05);
+            }
+            100% {
+                background: rgba(168, 85, 247, 0.25);
+                transform: scale(1) translateY(-4px);
+                border-color: var(--bright-purple);
+                box-shadow: 0 0 20px var(--glow-purple);
+            }
+        }
+
+        /* ===== САЙТ (остальное) ===== */
         .cursor-glow {
             position: fixed;
             left: 0;
@@ -822,7 +1105,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4) 100%);
+            background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
@@ -860,7 +1143,7 @@
             z-index: 2;
             opacity: 0;
             transition: 0.3s ease;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
         }
         .gallery-item:hover .zoom-icon {
             opacity: 1;
@@ -892,8 +1175,8 @@
             right: 30px;
             font-size: 2.2rem;
             color: #fff;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             width: 48px;
             height: 48px;
@@ -905,7 +1188,7 @@
             z-index: 10;
         }
         .lightbox-close:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             transform: rotate(90deg);
         }
         .lightbox-content {
@@ -930,8 +1213,8 @@
             transform: translateY(-50%);
             font-size: 2.5rem;
             color: #fff;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             width: 52px;
             height: 52px;
@@ -950,7 +1233,7 @@
             right: -70px;
         }
         .lightbox-nav:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 0 30px var(--glow-purple);
         }
         .lightbox-counter {
@@ -958,13 +1241,13 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             padding: 6px 20px;
             border-radius: 30px;
             font-size: 0.9rem;
             color: #fff;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             letter-spacing: 1px;
         }
         @media (max-width: 768px) {
@@ -1012,10 +1295,14 @@
             animation: shimmerBg 20s infinite linear;
         }
         @keyframes shimmerBg {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        .join-section > * {
+        .join-section>* {
             position: relative;
             z-index: 1;
         }
@@ -1145,8 +1432,14 @@
             border-radius: 10px;
         }
         @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95) translateY(40px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
         .modal-close {
             position: absolute;
@@ -1324,8 +1617,14 @@
             pointer-events: auto;
             transform: translateX(-50%) translateY(0);
         }
-        .toast.success { border-color: #22c55e; box-shadow: 0 0 40px rgba(34, 197, 94, 0.1); }
-        .toast.error { border-color: #ef4444; box-shadow: 0 0 40px rgba(239, 68, 68, 0.1); }
+        .toast.success {
+            border-color: #22c55e;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.1);
+        }
+        .toast.error {
+            border-color: #ef4444;
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.1);
+        }
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -1335,43 +1634,99 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .reveal-delay-1 { transition-delay: 0.05s; }
-        .reveal-delay-2 { transition-delay: 0.1s; }
-        .reveal-delay-3 { transition-delay: 0.15s; }
-        .reveal-delay-4 { transition-delay: 0.2s; }
+        .reveal-delay-1 {
+            transition-delay: 0.05s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.1s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.15s;
+        }
+        .reveal-delay-4 {
+            transition-delay: 0.2s;
+        }
         @media (max-width: 1024px) {
             .hero::before {
                 background-size: 50% auto;
                 background-position: 45% 45%;
             }
-            .hero h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+            .hero h1 {
+                font-size: clamp(2.8rem, 10vw, 4.5rem);
+            }
         }
         @media (max-width: 768px) {
-            .cursor-glow, .cursor-dot { display: none !important; }
-            body { cursor: auto; }
-            .nav-links {
-                position: fixed; top: 0; right: -100%; width: 290px; height: 100vh;
-                background: rgba(7, 6, 11, 0.97); backdrop-filter: blur(30px);
-                flex-direction: column; justify-content: center; padding: 40px 32px;
-                gap: 24px; transition: var(--transition); border-left: 1px solid var(--glass-border);
+            .cursor-glow,
+            .cursor-dot {
+                display: none !important;
             }
-            .nav-links.open { right: 0; }
-            .nav-links a { font-size: 1rem; }
-            .burger { display: flex; }
+            body {
+                cursor: auto;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 290px;
+                height: 100vh;
+                background: rgba(7, 6, 11, 0.97);
+                backdrop-filter: blur(30px);
+                flex-direction: column;
+                justify-content: center;
+                padding: 40px 32px;
+                gap: 24px;
+                transition: var(--transition);
+                border-left: 1px solid var(--glass-border);
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1rem;
+            }
+            .burger {
+                display: flex;
+            }
             .hero::before {
                 background-size: 65% auto;
                 background-position: 40% 40%;
                 opacity: 0.25;
             }
-            .hero h1 { font-size: clamp(2.2rem, 8vw, 3.2rem); }
-            .hero p { font-size: 1rem; }
-            .section { padding: 60px 0 40px; }
-            .join-section { padding: 40px 20px; border-radius: 24px; }
-            .about-grid { grid-template-columns: 1fr; }
-            .members-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .modal { padding: 32px 20px; }
-            .floating-shapes { display: none; }
+            .hero h1 {
+                font-size: clamp(2.2rem, 8vw, 3.2rem);
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .section {
+                padding: 60px 0 40px;
+            }
+            .join-section {
+                padding: 40px 20px;
+                border-radius: 24px;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .members-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .modal {
+                padding: 32px 20px;
+            }
+            .floating-shapes {
+                display: none;
+            }
+            #preloader .loader-blocks .block {
+                width: 14px;
+                height: 14px;
+            }
+            #preloader .progress-track {
+                width: min(240px, 70vw);
+            }
         }
         @media (max-width: 480px) {
             .hero::before {
@@ -1379,23 +1734,94 @@
                 background-position: 35% 40%;
                 opacity: 0.15;
             }
-            .hero h1 { font-size: 1.8rem; }
-            .hero p { font-size: 0.9rem; }
-            .btn { padding: 12px 24px; font-size: 0.75rem; }
-            .gallery-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .section-header h2 { font-size: 1.5rem; }
-            .join-buttons .btn { min-width: 120px; }
-            .join-bottom { flex-direction: column; gap: 16px; }
-            .modal { padding: 24px 16px; }
-            .modal-header h2 { font-size: 1.2rem; }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.75rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+            .join-buttons .btn {
+                min-width: 120px;
+            }
+            .join-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .modal {
+                padding: 24px 16px;
+            }
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
             .form-group .input-wrapper input,
-            .form-group .input-wrapper textarea { font-size: 0.85rem; padding: 12px 12px 12px 0; }
-            .hero-badge { font-size: 0.5rem; padding: 6px 16px; }
+            .form-group .input-wrapper textarea {
+                font-size: 0.85rem;
+                padding: 12px 12px 12px 0;
+            }
+            .hero-badge {
+                font-size: 0.5rem;
+                padding: 6px 16px;
+            }
+            #preloader .loader-logo {
+                font-size: 1.4rem;
+                gap: 10px;
+            }
+            #preloader .loader-logo .logo-icon {
+                font-size: 1.8rem;
+            }
+            #preloader .loader-blocks .block {
+                width: 12px;
+                height: 12px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== PRELOADER ===== -->
+    <div id="preloader">
+        <div class="floating-shapes">
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+            <div class="floating-shape"></div>
+        </div>
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fas fa-dragon logo-icon"></i>
+                EVOKER<span>TEAM</span>
+            </div>
+            <div class="loader-text"><i class="fas fa-cube"></i> Загрузка</div>
+            <div class="progress-track">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="loader-percent" id="loaderPercent">0%</div>
+            <div class="loader-blocks">
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+                <span class="block"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ОСТАЛЬНОЙ САЙТ ===== -->
     <div class="cursor-glow" id="cursorGlow"></div>
     <div class="cursor-dot" id="cursorDot"></div>
     <canvas id="bg-canvas"></canvas>
@@ -1560,22 +1986,69 @@
     <div id="toast" class="toast"></div>
 
     <script>
+        // ============================================================
+        // 1. ПРЕЛОАДЕР — случайная длительность от 2 до 5 секунд
+        // ============================================================
+        (function preloader() {
+            const preloaderEl = document.getElementById('preloader');
+            const progressBar = document.getElementById('progressBar');
+            const percentEl = document.getElementById('loaderPercent');
+
+            const duration = 2000 + Math.random() * 3000; // 2000–5000 мс
+            const startTime = performance.now();
+
+            function updateProgress(now) {
+                const elapsed = now - startTime;
+                let progress = Math.min(elapsed / duration, 1);
+                // немного смягчаем конец
+                if (progress > 0.95) progress = 1;
+                const percent = Math.round(progress * 100);
+                progressBar.style.width = percent + '%';
+                percentEl.textContent = percent + '%';
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateProgress);
+                } else {
+                    // скрываем прелоадер с плавной анимацией
+                    setTimeout(() => {
+                        preloaderEl.classList.add('hidden');
+                    }, 300);
+                }
+            }
+            requestAnimationFrame(updateProgress);
+        })();
+
+        // ============================================================
+        // 2. ОСТАЛЬНАЯ ЛОГИКА САЙТА (курсор, фон, навигация, модалка и т.д.)
+        // ============================================================
+
         const cursorDot = document.getElementById('cursorDot');
         const cursorGlow = document.getElementById('cursorGlow');
-        let mouseX = -200, mouseY = -200;
-        let dotX = -200, dotY = -200;
-        let glowX = -200, glowY = -200;
-        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-        document.addEventListener('mouseleave', () => { mouseX = -200; mouseY = -200; });
-        document.querySelectorAll('a, button, .btn, .about-card, .member-card, .social-links a, .gallery-item, .logo').forEach(el => {
+        let mouseX = -200,
+            mouseY = -200;
+        let dotX = -200,
+            dotY = -200;
+        let glowX = -200,
+            glowY = -200;
+        document.addEventListener('mousemove', (e) => { mouseX = e.clientX;
+            mouseY = e.clientY; });
+        document.addEventListener('mouseleave', () => { mouseX = -200;
+            mouseY = -200; });
+        document.querySelectorAll('a, button, .btn, .about-card, .member-card, .social-links a, .gallery-item, .logo').forEach(
+        el => {
             el.addEventListener('mouseenter', () => cursorDot.classList.add('hover'));
             el.addEventListener('mouseleave', () => cursorDot.classList.remove('hover'));
         });
+
         function animateCursor() {
-            dotX += (mouseX - dotX) * 0.15; dotY += (mouseY - dotY) * 0.15;
-            glowX += (mouseX - glowX) * 0.04; glowY += (mouseY - glowY) * 0.04;
-            cursorDot.style.left = dotX + 'px'; cursorDot.style.top = dotY + 'px';
-            cursorGlow.style.left = glowX + 'px'; cursorGlow.style.top = glowY + 'px';
+            dotX += (mouseX - dotX) * 0.15;
+            dotY += (mouseY - dotY) * 0.15;
+            glowX += (mouseX - glowX) * 0.04;
+            glowY += (mouseY - glowY) * 0.04;
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
@@ -1583,38 +2056,60 @@
         const bgCanvas = document.getElementById('bg-canvas');
         const bgCtx = bgCanvas.getContext('2d');
         let bgW, bgH;
-        function resizeBg() { bgW = bgCanvas.width = window.innerWidth; bgH = bgCanvas.height = window.innerHeight; }
-        window.addEventListener('resize', resizeBg); resizeBg();
-        const spots = []; const SPOT_COUNT = 6;
+
+        function resizeBg() { bgW = bgCanvas.width = window.innerWidth;
+            bgH = bgCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeBg);
+        resizeBg();
+        const spots = [];
+        const SPOT_COUNT = 6;
         class Spot {
             constructor() {
-                this.x = Math.random() * bgW; this.y = Math.random() * bgH;
+                this.x = Math.random() * bgW;
+                this.y = Math.random() * bgH;
                 this.radius = Math.random() * 300 + 150;
-                this.vx = (Math.random() - 0.5) * 0.2; this.vy = (Math.random() - 0.5) * 0.2;
-                this.color = `hsla(${260 + Math.random() * 40}, ${70 + Math.random() * 20}%, ${50 + Math.random() * 20}%, ${0.03 + Math.random() * 0.04})`;
+                this.vx = (Math.random() - 0.5) * 0.2;
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.color =
+                    `hsla(${260 + Math.random() * 40}, ${70 + Math.random() * 20}%, ${50 + Math.random() * 20}%, ${0.03 + Math.random() * 0.04})`;
             }
             update() {
-                this.x += this.vx; this.y += this.vy;
+                this.x += this.vx;
+                this.y += this.vy;
                 if (this.x < -this.radius || this.x > bgW + this.radius) this.vx *= -1;
                 if (this.y < -this.radius || this.y > bgH + this.radius) this.vy *= -1;
             }
             draw() {
                 const grad = bgCtx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-                grad.addColorStop(0, this.color); grad.addColorStop(1, 'transparent');
-                bgCtx.fillStyle = grad; bgCtx.beginPath(); bgCtx.arc(this.x, this.y, this.radius, 0, Math.PI*2); bgCtx.fill();
+                grad.addColorStop(0, this.color);
+                grad.addColorStop(1, 'transparent');
+                bgCtx.fillStyle = grad;
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                bgCtx.fill();
             }
         }
         for (let i = 0; i < SPOT_COUNT; i++) spots.push(new Spot());
-        function animateBg() { bgCtx.clearRect(0,0,bgW,bgH); spots.forEach(s=>{s.update(); s.draw();}); requestAnimationFrame(animateBg); }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgW, bgH);
+            spots.forEach(s => { s.update();
+                s.draw(); });
+            requestAnimationFrame(animateBg);
+        }
         animateBg();
 
         const burger = document.getElementById('burger');
         const navLinks = document.getElementById('navLinks');
-        burger.addEventListener('click', () => { burger.classList.toggle('active'); navLinks.classList.toggle('open'); });
-        document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => { burger.classList.remove('active'); navLinks.classList.remove('open'); }));
+        burger.addEventListener('click', () => { burger.classList.toggle('active');
+            navLinks.classList.toggle('open'); });
+        document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => { burger.classList
+                .remove('active');
+            navLinks.classList.remove('open'); }));
 
         const reveals = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.12 });
+        const revealObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting)
+                    entry.target.classList.add('visible'); }); }, { threshold: 0.12 });
         reveals.forEach(el => revealObserver.observe(el));
 
         const header = document.getElementById('header');
@@ -1623,17 +2118,26 @@
         const modalOverlay = document.getElementById('modalOverlay');
         const openModalBtns = document.querySelectorAll('#openModalBtn, #openModalBtnHero');
         const closeModalBtn = document.getElementById('modalCloseBtn');
-        function openModal() { modalOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closeModal() { modalOverlay.classList.remove('active'); document.body.style.overflow = ''; }
-        openModalBtns.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openModal(); }));
+
+        function openModal() { modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; }
+
+        function closeModal() { modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; }
+        openModalBtns.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault();
+            openModal(); }));
         closeModalBtn.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalOverlay.classList.contains('active'))
+                closeModal(); });
 
         const toast = document.getElementById('toast');
+
         function showToast(message, type = 'success') {
-            toast.textContent = message; toast.className = 'toast ' + type + ' show';
-            clearTimeout(toast._timeout); toast._timeout = setTimeout(() => toast.classList.remove('show'), 6000);
+            toast.textContent = message;
+            toast.className = 'toast ' + type + ' show';
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 6000);
         }
 
         const form = document.getElementById('applicationForm');
@@ -1642,7 +2146,8 @@
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!WEBHOOK_URL) { showToast('⚠️ Вебхук не настроен.', 'error'); return; }
-            submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Отправка...';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Отправка...';
             const getVal = (id) => document.getElementById(id)?.value.trim() || '';
             const fields = [
                 { name: '👤 Возраст', value: getVal('age') || 'Не указано', inline: true },
@@ -1652,33 +2157,41 @@
                 { name: '⏰ Время в день/неделю', value: getVal('time') || 'Не указано', inline: true },
                 { name: '🎮 Игровой ник', value: getVal('nickname') || 'Не указано', inline: true },
                 { name: '💬 Discord ник', value: getVal('discordNick') || 'Не указано', inline: true },
-                { name: '🎤 Микрофон', value: document.getElementById('microphone').checked ? 'Да' : 'Нет', inline: true },
+                { name: '🎤 Микрофон', value: document.getElementById('microphone').checked ? 'Да' : 'Нет',
+                    inline: true },
                 { name: '📢 Откуда узнал', value: getVal('source') || 'Не указано' }
             ].filter(f => f.value.trim() !== '');
-            if (fields.length === 0) { showToast('❌ Нет данных для отправки.', 'error'); submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку'; return; }
-            const embed = { title: '📩 Новая заявка в клан EVOKER TEAM', color: 0xa855f7, fields, timestamp: new Date().toISOString(), footer: { text: 'EVOKER TEAM • Заявка' } };
+            if (fields.length === 0) { showToast('❌ Нет данных для отправки.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку'; return; }
+            const embed = { title: '📩 Новая заявка в клан EVOKER TEAM', color: 0xa855f7, fields, timestamp: new Date()
+                    .toISOString(), footer: { text: 'EVOKER TEAM • Заявка' } };
             try {
-                const res = await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ embeds: [embed] }) });
-                if (res.ok) { showToast('✅ Заявка успешно отправлена!', 'success'); form.reset(); closeModal(); }
-                else throw new Error('Ошибка отправки');
-            } catch (err) { showToast('❌ Ошибка соединения.', 'error'); }
-            finally { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку'; }
+                const res = await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ embeds: [embed] }) });
+                if (res.ok) { showToast('✅ Заявка успешно отправлена!', 'success');
+                    form.reset();
+                    closeModal(); } else throw new Error('Ошибка отправки');
+            } catch (err) { showToast('❌ Ошибка соединения.', 'error'); } finally { submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку'; }
         });
 
         const SERVER_ID = '1338594457645350973';
         const container = document.getElementById('membersContainer');
+
         async function loadMembers() {
             try {
                 const response = await fetch(`https://discord.com/api/guilds/${SERVER_ID}/widget.json`);
                 if (!response.ok) throw new Error(`Ошибка HTTP ${response.status}`);
                 const data = await response.json();
                 if (!data.members || data.members.length === 0) {
-                    container.innerHTML = `<div class="members-loading" style="color: var(--gray);"><i class="fas fa-info-circle"></i> Сейчас никто не в сети.</div>`;
+                    container.innerHTML =
+                        `<div class="members-loading" style="color: var(--gray);"><i class="fas fa-info-circle"></i> Сейчас никто не в сети.</div>`;
                     return;
                 }
                 const roleMap = {};
                 if (data.roles) data.roles.forEach(r => roleMap[r.id] = r);
-                const sorted = data.members.sort((a,b) => (a.status==='online' ? -1 : 1));
+                const sorted = data.members.sort((a, b) => (a.status === 'online' ? -1 : 1));
                 let html = '<div class="members-grid">';
                 sorted.forEach(m => {
                     const avatarUrl = m.avatar_url || 'https://cdn.discordapp.com/embed/avatars/0.png';
@@ -1688,13 +2201,15 @@
                         const role = roleMap[m.roles[0]];
                         if (role?.color) roleColor = `#${role.color.toString(16).padStart(6,'0')}`;
                     }
-                    html += `<div class="member-card reveal"><div class="member-avatar" style="border-color:${roleColor};"><img src="${avatarUrl}" alt="${m.username}" loading="lazy" /><span class="status-ring ${isOnline?'online':''}"></span></div><h4 style="color:${roleColor};">${m.username}</h4><div class="status ${isOnline?'online':''}"><i class="fas fa-circle" style="font-size:0.3rem;margin-right:6px;"></i>${isOnline?'В сети':'Не в сети'}</div></div>`;
+                    html +=
+                        `<div class="member-card reveal"><div class="member-avatar" style="border-color:${roleColor};"><img src="${avatarUrl}" alt="${m.username}" loading="lazy" /><span class="status-ring ${isOnline?'online':''}"></span></div><h4 style="color:${roleColor};">${m.username}</h4><div class="status ${isOnline?'online':''}"><i class="fas fa-circle" style="font-size:0.3rem;margin-right:6px;"></i>${isOnline?'В сети':'Не в сети'}</div></div>`;
                 });
                 html += '</div>';
                 container.innerHTML = html;
                 container.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
             } catch (err) {
-                container.innerHTML = `<div class="members-error"><i class="fas fa-exclamation-triangle"></i> Не удалось загрузить участников.</div>`;
+                container.innerHTML =
+                    `<div class="members-error"><i class="fas fa-exclamation-triangle"></i> Не удалось загрузить участников.</div>`;
             }
         }
         loadMembers();
@@ -1714,27 +2229,27 @@
             'photo/5.jpg',
             'photo/6.jpg',
             'photo/7.jpg',
-            'photo/8.jpg', 
-            'photo/10.jpg',   
-            'photo/11.jpg',  
-            'photo/12.jpg',   
-            'photo/13.jpg',  
-            'photo/14.jpg', 
+            'photo/8.jpg',
+            'photo/10.jpg',
+            'photo/11.jpg',
+            'photo/12.jpg',
+            'photo/13.jpg',
+            'photo/14.jpg',
             'photo/15.jpg',
             'photo/16.jpg',
             'photo/17.jpg',
             'photo/18.jpg'
-
         ];
         let currentIndex = 0;
+
         function buildGallery() {
             galleryGrid.innerHTML = photos.map((src, index) => `
-                <div class="gallery-item reveal" data-index="${index}">
-                    <img src="${src}" alt="Фото ${index+1}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%231a0b2e%22 width=%22200%22 height=%22150%22/%3E%3Ctext fill=%22%23a855f7%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2214%22%3EФото ${index+1}%3C/text%3E%3C/svg%3E'; this.onerror=null;" />
-                    <span class="gallery-label">Момент #${index+1}</span>
-                    <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
-                </div>
-            `).join('');
+                    <div class="gallery-item reveal" data-index="${index}">
+                        <img src="${src}" alt="Фото ${index+1}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22%3E%3Crect fill=%22%231a0b2e%22 width=%22200%22 height=%22150%22/%3E%3Ctext fill=%22%23a855f7%22 x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2214%22%3EФото ${index+1}%3C/text%3E%3C/svg%3E'; this.onerror=null;" />
+                        <span class="gallery-label">Момент #${index+1}</span>
+                        <span class="zoom-icon"><i class="fas fa-search-plus"></i></span>
+                    </div>
+                `).join('');
             document.querySelectorAll('.gallery-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const idx = parseInt(item.dataset.index);
@@ -1743,24 +2258,29 @@
             });
             document.querySelectorAll('.gallery-item.reveal').forEach(el => revealObserver.observe(el));
         }
+
         function openLightbox(index) {
             currentIndex = index;
             updateLightboxImage();
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
+
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = '';
         }
+
         function updateLightboxImage() {
             lightboxImg.src = photos[currentIndex];
             lightboxCounter.textContent = `${currentIndex+1} / ${photos.length}`;
         }
+
         function prevImage() {
             currentIndex = (currentIndex - 1 + photos.length) % photos.length;
             updateLightboxImage();
         }
+
         function nextImage() {
             currentIndex = (currentIndex + 1) % photos.length;
             updateLightboxImage();
